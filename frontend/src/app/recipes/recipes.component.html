@@ -1,0 +1,5 @@
+<input type="file" #fileInput style="display: none" (change)="uploadFile($event)" />
+<button mat-raised-button (click)="fileInput.click()">Upload File</button>
+
+
+<div [innerHTML]="content"></div>
