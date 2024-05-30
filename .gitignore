@@ -1,0 +1,14 @@
+﻿################################################################################
+# This .gitignore file was automatically created by Microsoft(R) Visual Studio.
+################################################################################
+
+/.vs/not-your-grandmas-recipe-app/FileContentIndex
+/.vs/not-your-grandmas-recipe-app/v17
+/Backend/obj
+/Backend/appsettings.json
+/Backend/bin/Debug/net8.0
+/.vs/not-your-grandmas-recipe-app/DesignTimeBuild
+/.vs/not-your-grandmas-recipe-app/copilot-chat/5d31a13a/sessions
+/.vs/not-your-grandmas-recipe-app/config
+/Backend/appsettings.Development.json
+/frontend/.vscode
