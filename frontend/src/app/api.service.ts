@@ -15,6 +15,10 @@ export class ApiService {
     return this.http.get(this.apiUrl);
   }
 
+  query(): Observable<any> {
+    return this.http.get(this.apiUrl + "/query");
+  }
+
   addRecipe(data: any): Observable<any> {
     return this.http.post(this.apiUrl, data);
   }

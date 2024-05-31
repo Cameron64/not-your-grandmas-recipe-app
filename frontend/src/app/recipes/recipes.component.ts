@@ -24,9 +24,7 @@ export class RecipesComponent implements OnInit {
   }
 
   ngOnInit(): void {
-    // this.apiService.getRecipes().subscribe(response => {
-    //   console.log(response);
-    // });
+    
   }
 
   getFormattedContent(content: string): string {
