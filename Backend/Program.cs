@@ -8,6 +8,7 @@ builder.Services.AddEndpointsApiExplorer();
 builder.Services.AddSwaggerGen();
 builder.Services.AddSingleton<FormRecognizerService>();
 builder.Services.AddSingleton<OpenAIService>();
+builder.Services.AddSingleton<CosmosDbService>();
 
 
 builder.Services.AddCors(options =>

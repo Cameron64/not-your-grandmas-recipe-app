@@ -1,5 +1,6 @@
 using Backend.Models;
 using Backend.Services;
+using Backend.Utils;
 using Microsoft.AspNetCore.Mvc;
 using System.Collections.Generic;
 using System.Threading.Tasks;
@@ -10,12 +11,14 @@ public class RecipeController : ControllerBase
 {
     private readonly FormRecognizerService _formRecognizerService;
     private readonly OpenAIService _openAIService;
+    private readonly CosmosDbService _cosmosDbService;
 
 
-    public RecipeController(FormRecognizerService formRecognizerService, OpenAIService openAIService)
+    public RecipeController(FormRecognizerService formRecognizerService, OpenAIService openAIService, CosmosDbService cosmosDbService)
     {
         _formRecognizerService = formRecognizerService;
         _openAIService = openAIService;
+        _cosmosDbService = cosmosDbService;
     }
 
     [HttpPost("upload")]
@@ -33,9 +36,22 @@ public class RecipeController : ControllerBase
 
         var result = await _formRecognizerService.AnalyzeDocumentAsync(memoryStream);
 
-        var chatGptResponse = await QueryLLM(result.Content);
+        var recipeObj = await QueryLLM(result.Content);
 
-        return new JsonResult(chatGptResponse);
+        //check if recipeObj is valid
+        if(recipeObj == null)
+        {
+            return BadRequest("Recipe could not be generated.");
+        }
+        else
+        {
+            Recipe recipe = JsonConverter.ConvertJsonToObject<Recipe>(recipeObj);
+            recipe.id = Guid.NewGuid().ToString();
+            recipe.RecipeId = Guid.NewGuid().ToString();
+            await _cosmosDbService.AddRecipeAsync(recipe);
+        }
+
+        return new JsonResult(recipeObj);
     }
 
     [HttpGet]
@@ -56,7 +72,7 @@ public class RecipeController : ControllerBase
         string promptPretext = $@"
             The following is a recipe. It may contain mistakes or be out of order, but it should contain ingredients and instructions.
             Please make corrections as needed and return the recipe as a json object adhering to the following model:
-                public int Id {{ get; set; }}
+                public string RecipeId {{ get; set; }}
                 public string ?Name {{ get; set; }}
                 public List<string> Ingredients {{ get; set; }}
                 public List<string> ?Steps {{ get; set; }}
