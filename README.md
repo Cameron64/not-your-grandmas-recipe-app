@@ -1,4 +1,4 @@
-# Powered by Azure AI!
+# Powered by Azure and OpenAI!
 
 This project leverages the power of Chat GPT and Azure's Document Intelligence resource to read hand written recipes and turn them into digital ones 
 
