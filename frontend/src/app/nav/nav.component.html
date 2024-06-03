@@ -1,0 +1,21 @@
+<mat-toolbar color="primary">
+    <button mat-icon-button (click)="sidenav.toggle()">
+      <mat-icon>menu</mat-icon>
+    </button>
+    <span>Not Your Grandma's Recipe App</span>
+  </mat-toolbar>
+  
+  <mat-sidenav-container class="example-container">
+    <mat-sidenav #sidenav mode="side" style="margin-top:60px;" opened>
+      <mat-nav-list>
+        <a mat-list-item routerLink="/">Home</a>
+        <a mat-list-item routerLink="/recipes">Recipes</a>
+        <a mat-list-item routerLink="/settings">Settings</a>
+      </mat-nav-list>
+    </mat-sidenav>
+    <mat-sidenav-content style="margin-top: 60px;">
+      <app-spinner></app-spinner>
+      <router-outlet></router-outlet>
+    </mat-sidenav-content>
+  </mat-sidenav-container>
+  

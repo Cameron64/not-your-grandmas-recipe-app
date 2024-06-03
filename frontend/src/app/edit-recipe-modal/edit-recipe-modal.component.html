@@ -1,0 +1,45 @@
+<h1 mat-dialog-title>Edit Recipe</h1>
+<form [formGroup]="recipeForm" (ngSubmit)="onSubmit()">
+  <div mat-dialog-content>
+    <mat-form-field>
+      <mat-label>Recipe Name</mat-label>
+      <input matInput formControlName="name">
+    </mat-form-field>
+    <div formArrayName="ingredients">
+      <h4>Ingredients</h4>
+      <div *ngFor="let ingredient of ingredients.controls; let i=index">
+        <mat-form-field>
+            <mat-label>Ingredient {{i + 1}}</mat-label>
+            <input matInput [formControlName]="i">
+            <button mat-icon-button matSuffix (click)="removeIngredient(i)">
+                <mat-icon>close</mat-icon>
+            </button>
+        </mat-form-field>
+      </div>
+        <button mat-button type="button" (click)="addIngredient()">
+            <mat-icon>add</mat-icon>
+            Add Ingredient
+        </button>
+    </div>
+    <div formArrayName="steps">
+      <h4>Steps</h4>
+      <div *ngFor="let step of steps.controls; let i=index">
+        <mat-form-field>
+          <mat-label>Step {{i + 1}}</mat-label>
+          <textarea matInput  [formControlName]="i"></textarea>
+          <button mat-icon-button matSuffix (click)="removeStep(i)">
+            <mat-icon>close</mat-icon>
+        </button>
+        </mat-form-field>
+      </div>
+      <button mat-button type="button" (click)="addStep()">
+        <mat-icon>add</mat-icon>
+        Add Step
+    </button>
+    </div>
+  </div>
+  <div mat-dialog-actions>
+    <button mat-button type="submit">Save</button>
+    <button mat-button mat-dialog-close>Close</button>
+  </div>
+</form>

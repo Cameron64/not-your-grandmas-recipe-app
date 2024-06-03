@@ -24,7 +24,30 @@ namespace Backend.Services
             await _container.CreateItemAsync(recipe, new PartitionKey(recipe.RecipeId));
         }
 
-        // Additional CRUD operations can be added here.
+        //get recipes call
+        public async Task<List<Recipe>> GetRecipesAsync()
+        {
+            var recipes = new List<Recipe>();
+            var iterator = _container.GetItemQueryIterator<Recipe>();
+            while (iterator.HasMoreResults)
+            {
+                var response = await iterator.ReadNextAsync();
+                recipes.AddRange(response.ToList());
+            }
+            return recipes;
+        }
+
+        //edit
+        public async Task UpdateRecipeAsync(Recipe recipe)
+        {
+            await _container.UpsertItemAsync(recipe, new PartitionKey(recipe.RecipeId));
+        }
+
+        //delete
+        public async Task DeleteRecipeAsync(string recipeId)
+        {
+            await _container.DeleteItemAsync<Recipe>(recipeId, new PartitionKey(recipeId));
+        }
     }
 
 }

@@ -39,7 +39,7 @@ public class RecipeController : ControllerBase
         var recipeObj = await QueryLLM(result.Content);
 
         //check if recipeObj is valid
-        if(recipeObj == null)
+        if (recipeObj == null)
         {
             return BadRequest("Recipe could not be generated.");
         }
@@ -55,10 +55,10 @@ public class RecipeController : ControllerBase
     }
 
     [HttpGet]
-    public async Task<IActionResult> GetRecipes()
+    public async Task<List<Recipe>> GetRecipes()
     {
-        var recipes = new List<Recipe>();
-        return new JsonResult(recipes);
+        return await _cosmosDbService.GetRecipesAsync();
+
     }
 
     private async Task<string> QueryLLM([FromBody] string prompt)
@@ -85,5 +85,32 @@ public class RecipeController : ControllerBase
     }
 
 
+    [HttpPost("edit")]
+    public async Task<IActionResult> UpdateRecipeAsync([FromBody] Recipe recipe)
+    {
+        if (recipe == null)
+        {
+            return BadRequest("The recipe object is empty.");
+        }
 
+        await _cosmosDbService.UpdateRecipeAsync(recipe);
+
+        return Ok();
+    }
+
+
+
+
+    [HttpDelete("{recipeId}")]
+    public async Task<IActionResult> DeleteRecipeAsync(string recipeId)
+    {
+        if (string.IsNullOrWhiteSpace(recipeId))
+        {
+            return BadRequest("The recipe id is empty.");
+        }
+
+        await _cosmosDbService.DeleteRecipeAsync(recipeId);
+
+        return Ok();
+    }
 }
