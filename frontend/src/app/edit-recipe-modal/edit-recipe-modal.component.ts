@@ -60,15 +60,20 @@ export class EditRecipeModalComponent implements OnInit{
     if (this.recipeForm.valid) {
       this._spinnerService.show();
       //editRecipe
-      this._apiService.editRecipe(this.recipeForm.value).subscribe((response: { Content: any; }) => {
-        this.close();
-      },
-      (error: any) => {},
-      () => {
-        this._spinnerService.hide();
+      this._apiService.editRecipe(this.recipeForm.value).subscribe({
+        next: (response: { Content: any; }) => {
+          this.close();
+        },
+        error: (error: any) => {
+          // handle error here
+        },
+        complete: () => {
+          this._spinnerService.hide();
+        }
       });
     }
   }
+  
 
     close() {
       this._dialogRef.close();

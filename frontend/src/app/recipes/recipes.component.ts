@@ -5,6 +5,9 @@ import { MatTableDataSource } from '@angular/material/table';
 import { EditRecipeModalComponent } from '../edit-recipe-modal/edit-recipe-modal.component';
 import { MatDialog } from '@angular/material/dialog';
 import { SpinnerService } from '../services/spinner-service';
+import { MatSnackBar } from '@angular/material/snack-bar';
+import { Recipe } from '../models/recipe';
+import { finalize } from 'rxjs';
 
 @Component({
   selector: 'app-recipes',
@@ -18,12 +21,16 @@ export class RecipesComponent implements OnInit {
   public content: string | undefined;
   public displayedColumns: string[] = ['name', 'actions'];
   public dataSource: MatTableDataSource<any> = new MatTableDataSource<any>();
-  _spinnerService: SpinnerService;
+
 
   @ViewChild(MatPaginator) paginator: MatPaginator | undefined;
 
-  constructor(private apiService: ApiService, private dialog: MatDialog, private spinnerService: SpinnerService) { 
-    this._spinnerService = spinnerService;
+  constructor(
+    private apiService: ApiService, 
+    private dialog: MatDialog, 
+    private spinnerService: SpinnerService, 
+    private snackBar: MatSnackBar
+  ) { 
   }
 
   ngOnInit(): void {
@@ -31,17 +38,24 @@ export class RecipesComponent implements OnInit {
   }
 
   refresh() {
-    this._spinnerService.show();
-    this.apiService.getRecipes().subscribe(response => {
-      this.recipes = response;
-      this.dataSource.data = this.recipes;
-      if (this.paginator) {
-        this.dataSource.paginator = this.paginator;
+    this.spinnerService.show();
+
+    this.apiService.getRecipes()
+    .pipe(finalize(() => this.spinnerService.hide()))
+    .subscribe({
+      next: (response: Recipe[]) => {
+        this.recipes = response;
+        this.dataSource.data = this.recipes;
+        if (this.paginator) {
+          this.dataSource.paginator = this.paginator;
+        }
+      },
+      error: (error: any) => {
+        this.snackBar.open(error.message, 'Close');
+      },
+      complete: () => {
+        this.spinnerService.hide();
       }
-    },
-    (error: any) => {},
-    () => {
-      this._spinnerService.hide();
     });
   }
 
