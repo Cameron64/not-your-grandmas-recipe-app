@@ -24,6 +24,7 @@ import { MatFormFieldModule } from '@angular/material/form-field';
 import {MatProgressSpinnerModule} from '@angular/material/progress-spinner';
 import { SpinnerComponent } from '../spinner/spinner.component';
 import { SpinnerService } from '../services/spinner-service';
+import { MatSnackBarModule } from '@angular/material/snack-bar';
 
 
 
@@ -55,10 +56,11 @@ import { SpinnerService } from '../services/spinner-service';
     MatInputModule,
     MatFormFieldModule,
     MatProgressSpinnerModule,
+    MatSnackBarModule
   ],
   providers: [
     provideHttpClient(withInterceptorsFromDi()),
-    SpinnerService
+    SpinnerService,
   ],
   bootstrap: [AppComponent]
 })
