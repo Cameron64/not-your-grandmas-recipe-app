@@ -27,14 +27,23 @@ namespace Backend.Services
         //get recipes call
         public async Task<List<Recipe>> GetRecipesAsync()
         {
-            var recipes = new List<Recipe>();
-            var iterator = _container.GetItemQueryIterator<Recipe>();
-            while (iterator.HasMoreResults)
+            try
             {
-                var response = await iterator.ReadNextAsync();
-                recipes.AddRange(response.ToList());
+                var recipes = new List<Recipe>();
+                var iterator = _container.GetItemQueryIterator<Recipe>();
+                while (iterator.HasMoreResults)
+                {
+                    var response = await iterator.ReadNextAsync();
+                    recipes.AddRange(response.ToList());
+                }
+                return recipes;
             }
-            return recipes;
+            catch (Exception ex)
+            {
+                // Handle the exception here
+                Console.WriteLine($"An error occurred while getting recipes: {ex.Message}");
+                return new List<Recipe>();
+            }
         }
 
         //edit

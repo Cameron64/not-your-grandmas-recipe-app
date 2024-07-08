@@ -1,8 +1,36 @@
-<!-- <input type="file" #fileInput style="display: none" (change)="uploadFile($event)" />
-<button mat-raised-button (click)="fileInput.click()">Upload File</button>
 
- -->
 
+<h3>Recipes</h3>
+<div class="header-actions">
+  <button mat-flat-button (click)="addRecipe()">
+    <mat-icon aria-hidden="false" aria-label="Add Recipe" fontIcon="add"></mat-icon>
+    Add Recipe
+  </button>
+  <div class="right-actions">
+   
+    <mat-form-field>
+      <input matInput (keyup)="applyFilter($event)" placeholder="Filter">
+      <mat-icon matPrefix>search</mat-icon>
+    </mat-form-field>
+
+    <button mat-icon-button [matMenuTriggerFor]="menu" aria-label="Example icon-button with a menu">
+      <mat-icon>filter_alt</mat-icon>
+    </button>
+  </div>
+</div>
+
+<mat-menu #menu="matMenu">
+  <button mat-menu-item disabled>
+    <mat-icon>voicemail</mat-icon>
+    <span>Check voice mail</span>
+  </button>
+  <button mat-menu-item>
+    <mat-icon>notifications_off</mat-icon>
+    <span>Disable alerts</span>
+  </button>
+</mat-menu>
+
+ <mat-divider></mat-divider>
   <table mat-table [dataSource]="dataSource">
     <ng-container matColumnDef="name">
       <th mat-header-cell *matHeaderCellDef>Name</th>

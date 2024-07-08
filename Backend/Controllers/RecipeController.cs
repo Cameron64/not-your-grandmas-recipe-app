@@ -28,7 +28,7 @@ public class RecipeController : ControllerBase
         {
             return BadRequest("The uploaded file is empty.");
         }
-
+        Recipe recipe;
         using var memoryStream = new MemoryStream();
         await file.CopyToAsync(memoryStream);
 
@@ -45,13 +45,13 @@ public class RecipeController : ControllerBase
         }
         else
         {
-            Recipe recipe = JsonConverter.ConvertJsonToObject<Recipe>(recipeObj);
+            recipe = JsonConverter.ConvertJsonToObject<Recipe>(recipeObj);
             recipe.id = Guid.NewGuid().ToString();
             recipe.RecipeId = Guid.NewGuid().ToString();
             await _cosmosDbService.AddRecipeAsync(recipe);
         }
 
-        return new JsonResult(recipeObj);
+        return new JsonResult(recipe);
     }
 
     [HttpGet]

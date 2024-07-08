@@ -25,6 +25,8 @@ import {MatProgressSpinnerModule} from '@angular/material/progress-spinner';
 import { SpinnerComponent } from '../spinner/spinner.component';
 import { SpinnerService } from '../services/spinner-service';
 import { MatSnackBarModule } from '@angular/material/snack-bar';
+import { MatMenuModule } from '@angular/material/menu';
+import { AddRecipeModalComponent } from '../add-recipe-modal/add-recipe-modal.component';
 
 
 
@@ -35,6 +37,7 @@ import { MatSnackBarModule } from '@angular/material/snack-bar';
     NavComponent,
     EditRecipeModalComponent,
     SpinnerComponent,
+    AddRecipeModalComponent,
   ],
   imports: [
     BrowserModule,
@@ -56,7 +59,8 @@ import { MatSnackBarModule } from '@angular/material/snack-bar';
     MatInputModule,
     MatFormFieldModule,
     MatProgressSpinnerModule,
-    MatSnackBarModule
+    MatSnackBarModule,
+    MatMenuModule,
   ],
   providers: [
     provideHttpClient(withInterceptorsFromDi()),

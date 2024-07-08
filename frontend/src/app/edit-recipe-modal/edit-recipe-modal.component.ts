@@ -4,6 +4,7 @@ import { MAT_DIALOG_DATA, MatDialog, MatDialogRef } from '@angular/material/dial
 import { Recipe } from '../models/recipe';
 import { SpinnerService } from '../services/spinner-service';
 import { ApiService } from '../api.service';
+import { MatSnackBar } from '@angular/material/snack-bar';
 
 @Component({
   selector: 'app-edit-recipe-modal',
@@ -16,7 +17,8 @@ export class EditRecipeModalComponent implements OnInit{
   _dialogRef: MatDialogRef<EditRecipeModalComponent>;
   _spinnerService: SpinnerService;
   _apiService: ApiService;
-  constructor(@Inject(MAT_DIALOG_DATA) public data: Recipe, private fb: FormBuilder, spinnerservice: SpinnerService, apiService: ApiService, dialogRef: MatDialogRef<EditRecipeModalComponent>
+  constructor(@Inject(MAT_DIALOG_DATA) public data: Recipe, private fb: FormBuilder, spinnerservice: SpinnerService, 
+  apiService: ApiService, dialogRef: MatDialogRef<EditRecipeModalComponent>, private snackBar: MatSnackBar
 ) {
     this._spinnerService = spinnerservice;
     this._apiService = apiService;
@@ -65,7 +67,7 @@ export class EditRecipeModalComponent implements OnInit{
           this.close();
         },
         error: (error: any) => {
-          // handle error here
+          this.snackBar.open(error.message, 'Close');
         },
         complete: () => {
           this._spinnerService.hide();

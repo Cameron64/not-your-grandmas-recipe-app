@@ -8,6 +8,7 @@ import { SpinnerService } from '../services/spinner-service';
 import { MatSnackBar } from '@angular/material/snack-bar';
 import { Recipe } from '../models/recipe';
 import { finalize } from 'rxjs';
+import { AddRecipeModalComponent } from '../add-recipe-modal/add-recipe-modal.component';
 
 @Component({
   selector: 'app-recipes',
@@ -17,8 +18,7 @@ import { finalize } from 'rxjs';
 export class RecipesComponent implements OnInit {
   recipes: any[] = [];
 
-  @ViewChild('fileInput') fileInput: ElementRef | undefined;
-  public content: string | undefined;
+  
   public displayedColumns: string[] = ['name', 'actions'];
   public dataSource: MatTableDataSource<any> = new MatTableDataSource<any>();
 
@@ -59,21 +59,22 @@ export class RecipesComponent implements OnInit {
     });
   }
 
-  uploadFile(event: any) {
-    const file = event.target.files[0];
-    const formData = new FormData();
-    formData.append('file', file);
+  addRecipe(){
+    this.dialog.open(AddRecipeModalComponent, {
+      minWidth: '700px',
+    })
+    .afterClosed().subscribe((createdRecipe:Recipe) => {
+      this.refresh();
+      this.editRecipe(createdRecipe);
+  });
+}
 
-    this.apiService.uploadRecipe(formData).subscribe(response => {
-      this.content = this.getFormattedContent(response.Content);
-    });
-  }
+applyFilter(event: Event) {
+  const filterValue = (event.target as HTMLInputElement).value;
+  this.dataSource.filter = filterValue.trim().toLowerCase();
+}
 
-  getFormattedContent(content: string): string {
-    return content.replace(/\n/g, '<br>');
-  }
-
-  editRecipe(recipe: any) {
+  editRecipe(recipe: Recipe) {
     this.dialog.open(EditRecipeModalComponent, {
       data: recipe,
       minWidth: '700px',
@@ -83,7 +84,7 @@ export class RecipesComponent implements OnInit {
     });
   }
 
-  deleteRecipe(recipe: any) {
+  deleteRecipe(recipe: Recipe) {
     this.apiService.deleteRecipe(recipe.recipeId).subscribe(response => {
       this.refresh();
     });

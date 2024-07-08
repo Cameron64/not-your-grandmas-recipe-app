@@ -4,3 +4,20 @@
     margin-top: 16px; /* Optional: Add some spacing above the paginator */
   }
   
+
+  .header-actions {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+  }
+  
+  .right-actions {
+    display: flex;
+    align-items: center;
+    gap: 10px; /* Add space between the filter button and the input field */
+  }
+  
+  .mat-form-field {
+    margin-bottom: 0;
+  }
+  

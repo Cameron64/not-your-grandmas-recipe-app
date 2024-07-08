@@ -1,0 +1,16 @@
+<h1 mat-dialog-title>Add Recipe</h1>
+<div mat-dialog-content>
+<p style="margin-bottom:50px;">To Add a recipe, upload a photo of the recipe and we'll take care of figuring out what it says</p>
+
+
+
+<div class="file-drop-zone" (drop)="onFileDropped($event)" (dragover)="onDragOver($event)">
+    <mat-icon>cloud_upload</mat-icon>
+    <p>Drag & drop files here, or click to select files</p>
+    <input type="file" (change)="onFileSelected($event)">
+  </div>
+
+</div>
+<div mat-dialog-actions>
+    <button mat-button mat-dialog-close>Cancel</button>
+</div>
