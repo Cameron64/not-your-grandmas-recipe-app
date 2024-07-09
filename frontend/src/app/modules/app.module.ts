@@ -27,6 +27,7 @@ import { SpinnerService } from '../services/spinner-service';
 import { MatSnackBarModule } from '@angular/material/snack-bar';
 import { MatMenuModule } from '@angular/material/menu';
 import { AddRecipeModalComponent } from '../add-recipe-modal/add-recipe-modal.component';
+import { ConfirmationDialogComponent } from '../confirmation-dialog/confirmation-dialog.component';
 
 
 
@@ -38,6 +39,7 @@ import { AddRecipeModalComponent } from '../add-recipe-modal/add-recipe-modal.co
     EditRecipeModalComponent,
     SpinnerComponent,
     AddRecipeModalComponent,
+    ConfirmationDialogComponent
   ],
   imports: [
     BrowserModule,
