@@ -28,9 +28,9 @@ export class ApiService {
     return this.http.post(this.apiUrl + '/upload', data);
   }
 
-  deleteRecipe(recipeId: any): Observable<any> {
-    return this.http.delete(this.apiUrl + '/', recipeId);
-  }
+  deleteRecipe(id: string, recipeId: string): Observable<any> {
+    return this.http.delete(`${this.apiUrl}/${id}/${recipeId}`);
+}
 
   editRecipe(data: Recipe): Observable<any> {
     return this.http.post(this.apiUrl + '/edit', data);

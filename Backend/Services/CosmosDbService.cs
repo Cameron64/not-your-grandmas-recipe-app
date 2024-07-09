@@ -53,9 +53,17 @@ namespace Backend.Services
         }
 
         //delete
-        public async Task DeleteRecipeAsync(string recipeId)
+        public async Task DeleteRecipeAsync(string id, string recipeId)
         {
-            await _container.DeleteItemAsync<Recipe>(recipeId, new PartitionKey(recipeId));
+            try
+            {
+                await _container.DeleteItemAsync<Recipe>(id, new PartitionKey(recipeId));
+            }
+            catch (Exception ex)
+            {
+                Console.WriteLine($"An error occurred while deleting the recipe: {ex.Message}");
+                throw ex;
+            }
         }
     }
 

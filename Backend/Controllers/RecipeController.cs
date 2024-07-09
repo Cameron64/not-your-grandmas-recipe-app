@@ -101,16 +101,23 @@ public class RecipeController : ControllerBase
 
 
 
-    [HttpDelete("{recipeId}")]
-    public async Task<IActionResult> DeleteRecipeAsync(string recipeId)
+    [HttpDelete("{id}/{recipeId}")]
+    public async Task<IActionResult> DeleteRecipeAsync(string id, string recipeId)
     {
-        if (string.IsNullOrWhiteSpace(recipeId))
+        try
         {
-            return BadRequest("The recipe id is empty.");
+            if (string.IsNullOrWhiteSpace(recipeId) || string.IsNullOrWhiteSpace(id))
+            {
+                return BadRequest("The recipe id or id is empty.");
+            }
+
+            await _cosmosDbService.DeleteRecipeAsync(id, recipeId);
+
+            return Ok();
         }
-
-        await _cosmosDbService.DeleteRecipeAsync(recipeId);
-
-        return Ok();
+        catch (Exception ex)
+        {
+            return StatusCode(500, $"An error occurred while deleting the recipe: {ex.Message}");
+        }
     }
 }
