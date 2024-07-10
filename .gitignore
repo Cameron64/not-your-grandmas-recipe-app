@@ -13,3 +13,4 @@
 /Backend/appsettings.Development.json
 /frontend/.vscode
 /.vs/ProjectEvaluation
+/node_modules
